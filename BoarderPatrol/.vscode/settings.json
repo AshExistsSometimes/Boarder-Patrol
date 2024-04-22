@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SnowboardingGame.sln"
+    "dotnet.defaultSolution": "BoarderPatrol.sln"
 }

@@ -1,19 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
 	public float RotationSpeed = 150.0f;
-	public float ForwardForce = 10.0f;
 	public float Gravity = 9.81f;
-	public float MaxVelocity = 6f;
+	[Header("Movement variables")]
 
+	public float ForwardForce = 10.0f; // base vector, no one like its
+	public float MaxVelocity = 30f; // total allowed velocity the player can reach.
+	public float Accel = 40f; // how fast it takes to reach max velocity.
+	public float SlowRate = 3f; // how fast to slow the player.
 
-    public Rigidbody rb;
+	public Vector3 velocity = Vector3.zero;
+	public Rigidbody rb;
 
 	private Vector3 normal;
+
+	private bool _isGrounded = false;
 
 	void Start()
 	{
@@ -22,36 +28,21 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update()
 	{
+		print(transform.forward);
+
+		HandleGroundCheck();
+
 		SlopeDetection();
 
+		// funny
+		HandleMovement();
 
-		rb.AddForce(Vector3.down * Gravity);
-		rb.AddForce(Vector3.ProjectOnPlane(transform.forward * ForwardForce, normal));
+		HandleRotation();
+	}
 
-		if (rb.velocity.y < -Gravity)// Gravity (y) Cap
-		{
-			Vector3 _ = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
-
-			Vector3 _v2 = new Vector2(rb.velocity.x, rb.velocity.z);
-
-			_ = _.normalized * -Gravity;
-
-			rb.velocity = new Vector3(_v2.x, _.y, _v2.z);
-		}
-
-        if (rb.velocity.x < MaxVelocity || rb.velocity.z < MaxVelocity)// x/z Velocity Cap
-        {
-            Vector3 _v3 = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
-
-            Vector3 _v4 = new Vector2(rb.velocity.x, rb.velocity.z);
-
-            _v3 = _v3.normalized * MaxVelocity;
-
-            rb.velocity = new Vector3(_v3.x, _v4.y, _v3.z);
-        }
-
-
-        if (Input.GetKey(KeyCode.A))
+	private void HandleRotation()
+	{
+		if (Input.GetKey(KeyCode.A))
 		{
 			Debug.Log("A Key Pressed");
 			transform.Rotate(Vector3.down * RotationSpeed * Time.deltaTime);
@@ -63,11 +54,47 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	private void OnDrawGizmos()
+	private void HandleMovement()
 	{
-		Gizmos.color = Color.red;  //Forward
-		Vector3 direction = transform.forward * 7;// Gizmo Points Forwards
-		Gizmos.DrawRay(transform.position, direction);
+		if (!_isGrounded) return;
+
+		// the velocity to apply to the player.
+		// (transform.forward * ForwardForce)  this is the target vetor. aka the direction we want to go.
+		// -transform.forward.y this is used to reduce the speed when the player is not aligned with the slope.
+		// Time.deltaTime  sync with the frame rate and give more control with the speed and accel.
+		// Accel acceleration rate for the player.
+		velocity += ((transform.forward * ForwardForce) * -transform.forward.y) * Time.deltaTime * Accel;
+
+		// counter force.
+		// slows down the player over a given time.
+		velocity -= velocity * Time.deltaTime * SlowRate;
+
+		// checks to see if the player is faster than the max velocity allowed.
+		if (velocity.magnitude > MaxVelocity)
+		{
+			// if so, their velocity is capped at max.
+			velocity = velocity.normalized * MaxVelocity;
+		}
+
+		// we project the velocity on the slope aka place.
+		velocity = Vector3.ProjectOnPlane(velocity, normal);
+
+		// we set the rigidbody's velocity with velocity.
+		rb.velocity = velocity;
+	}
+
+	public void HandleGroundCheck()
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, Vector3.down, out hit, 2f))
+		{
+			_isGrounded = true;
+		}
+		else
+		{
+			_isGrounded = false;
+		}
+
 	}
 
 	public void SlopeDetection()
@@ -76,11 +103,6 @@ public class PlayerMovement : MonoBehaviour
 		if (Physics.Raycast(transform.position, Vector3.down, out hit))
 		{
 			normal = hit.normal;
-
-
-			Debug.DrawRay(transform.position, Vector3.down);
-
-			Debug.DrawRay(hit.point, hit.normal, Color.blue);
 		}
 	}
 }
