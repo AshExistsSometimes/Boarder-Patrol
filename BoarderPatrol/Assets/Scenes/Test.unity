@@ -132,22 +132,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHolder
       objectReference: {fileID: 0}
-    - target: {fileID: 1428962280421464139, guid: a64f0016128ff9e4e85875c48acfef15, type: 3}
-      propertyPath: Accel
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 1428962280421464139, guid: a64f0016128ff9e4e85875c48acfef15, type: 3}
-      propertyPath: SlowRate
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1428962280421464139, guid: a64f0016128ff9e4e85875c48acfef15, type: 3}
-      propertyPath: MaxVelocity
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1428962280421464139, guid: a64f0016128ff9e4e85875c48acfef15, type: 3}
-      propertyPath: ForwardForce
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1917445076728968089, guid: a64f0016128ff9e4e85875c48acfef15, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.4

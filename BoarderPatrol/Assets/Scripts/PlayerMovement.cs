@@ -10,14 +10,16 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Movement variables")]
 
 	public float ForwardForce = 10.0f; // base vector, no one like its
-	public float MaxVelocity = 6f; // total allowed velocity the player can reach.
-	public float Accel = 2f; // how fast it takes to reach max velocity.
-	public float SlowRate = 0.5f; // how fast to slow the player.
+	public float MaxVelocity = 30f; // total allowed velocity the player can reach.
+	public float Accel = 40f; // how fast it takes to reach max velocity.
+	public float SlowRate = 3f; // how fast to slow the player.
 
 	public Vector3 velocity = Vector3.zero;
 	public Rigidbody rb;
 
 	private Vector3 normal;
+
+	private bool _isGrounded = false;
 
 	void Start()
 	{
@@ -27,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
 	void Update()
 	{
 		print(transform.forward);
+
+		HandleGroundCheck();
 
 		SlopeDetection();
 
@@ -52,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void HandleMovement()
 	{
+		if (!_isGrounded) return;
+
 		// the velocity to apply to the player.
 		// (transform.forward * ForwardForce)  this is the target vetor. aka the direction we want to go.
 		// -transform.forward.y this is used to reduce the speed when the player is not aligned with the slope.
@@ -75,6 +81,20 @@ public class PlayerMovement : MonoBehaviour
 
 		// we set the rigidbody's velocity with velocity.
 		rb.velocity = velocity;
+	}
+
+	public void HandleGroundCheck()
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, Vector3.down, out hit, 2f))
+		{
+			_isGrounded = true;
+		}
+		else
+		{
+			_isGrounded = false;
+		}
+
 	}
 
 	public void SlopeDetection()
