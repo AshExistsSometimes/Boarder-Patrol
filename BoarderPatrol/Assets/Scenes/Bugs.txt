@@ -1,0 +1,3 @@
+Score Updates if game started on level, but if the game starts from the main menu it doesnt update
+
+Player Movement
