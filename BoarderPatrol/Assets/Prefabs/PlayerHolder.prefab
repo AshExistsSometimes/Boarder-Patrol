@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 8791799895762618126}
   m_Layer: 0
   m_Name: PlayerHolder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,9 +114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSpeed: 100
   Gravity: 7
-  ForwardForce: 10
-  MaxVelocity: 30
-  Accel: 40
+  ForwardForce: 15
+  MaxVelocity: 200
+  Accel: 60
   SlowRate: 3
   velocity: {x: 0, y: 0, z: 0}
   rb: {fileID: 8791799895762618126}

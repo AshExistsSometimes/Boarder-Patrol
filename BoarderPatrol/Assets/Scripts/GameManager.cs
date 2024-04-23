@@ -15,13 +15,18 @@ public class GameManager : MonoBehaviour
 	public int score = 0;
 	public bool LevelCompleted = false;
 
-	public void AddScore()
+	public int GetScore()
 	{
-		score++;
-		UIText.text = "Score: " + score.ToString();
+		return score;// Gets the Score Value to be referenced by other scripts
 	}
 
-	private void Update()
+    public void AddScore()
+    {
+        score++;
+		UIText.text = "Score: " + score.ToString();// Changes UI text
+    }
+
+    private void Update()
 	{
 		if (LevelCompleted == true)
 		{
