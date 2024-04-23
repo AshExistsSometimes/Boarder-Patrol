@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update()
 	{
-		print(transform.forward);
+		//print(transform.forward);
 
 		HandleGroundCheck();
 

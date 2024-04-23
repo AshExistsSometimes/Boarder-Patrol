@@ -8,6 +8,12 @@ public class ScoreFlag : MonoBehaviour
 {
     public TextMeshPro ScoreDisplay; 
 
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -18,12 +24,9 @@ public class ScoreFlag : MonoBehaviour
             string ScoreDisplay = "score";
             ScoreDisplay += GameManager.Instance.GetScore().ToString();
 
-            //ScoreDisplay.text = "grdfdfgsdf";//scoreLabel;//GameManager.Instance.GetScore().ToString());
-            
-            
-            
-            
-            Destroy(gameObject);
+            GetComponent<SFXPlayer>().PlaySFX();
+
+            StartCoroutine(DelayedDestroy());
         }
     }
 }

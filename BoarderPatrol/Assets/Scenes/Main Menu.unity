@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555fcca8a6200794b8578075e501fc7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIText: {fileID: 0}
+  UIText: {fileID: 15671017}
   score: 0
   LevelCompleted: 0
 --- !u!4 &947127496
