@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlagAnimation : MonoBehaviour
 {
-    public float AnimPlayTime = 1f;
+    public float AnimPlayTime = 0f;
     Animator flagAnim;
     private IEnumerator Delay()
     {
