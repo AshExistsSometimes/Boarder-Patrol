@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class FlagAnimation : MonoBehaviour
 {
-
-    void Update()
+    public float AnimPlayTime = 1f;
+    Animator flagAnim;
+    private IEnumerator Delay()
     {
-        GetComponent<Animator>().SetTrigger("RaiseFlag");
-        Debug.Log("PlayAnimation");
+        yield return new WaitForSeconds(AnimPlayTime);
+
+        flagAnim = this.GetComponent<Animator>();//.SetTrigger("RaiseFlag");
+        flagAnim.SetTrigger("RaiseFlag");
+
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FlagBob"))
+        {
+            Debug.Log("should be animating flag");
+        }
+    }
+
+    void Start()
+    {
+        StartCoroutine(Delay());
+        Debug.Log("Animation Script started");
     }
 }
