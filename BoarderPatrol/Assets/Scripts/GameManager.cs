@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 	public int score = 0;
 	public bool LevelCompleted = false;
 
-	public int GetScore()
+    public int GetScore()
 	{
 		return score;// Gets the Score Value to be referenced by other scripts
 	}
@@ -51,5 +51,15 @@ public class GameManager : MonoBehaviour
 	public void LoadNextScene()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+	}
+
+	public void QuitGame()
+	{
+		Application.Quit();
+	}
+
+	public void HideCursor()
+	{
+		Cursor.visible = false;
 	}
 }
